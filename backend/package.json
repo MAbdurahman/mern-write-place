@@ -1,0 +1,8 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for mern-write-place application",
+  "main": "/src/server.js",
+  "author": "Mahdi Abdurrahman",
+  "license": "MIT"
+}
