@@ -2,17 +2,17 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "backend for mern-write-place application",
-  "main": "/src/server.js",
+  "main": "src/server.js",
   "repository": "https://github.com/MAbdurahman/mern-write-place.git",
   "author": "Mahdi Abdurrahman",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "server": "cross-env NODE_ENV=development& nodemon server.js",
-    "client": "npm start --prefix ../frontend",
+    "start": "cross-env NODE_ENV=production node src/server.js",
+    "server": "cross-env NODE_ENV=development& nodemon src/server.js",
+    "client": "npm run dev --prefix ../frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "prod": "cross-env NODE_ENV=production& node server.js"
+    "prod": "cross-env NODE_ENV=production& node src/server.js"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
