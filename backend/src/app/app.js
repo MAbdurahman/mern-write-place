@@ -63,11 +63,13 @@ app.use(logger);
 
 /*************************** import all routes ***************************/
 import homeRoute from '../routes/homePageRoute.js';
+import authRoutes from '../routes/authRoutes.js';
 
 
 
 /******************************** routes ********************************/
 app.use('/', homeRoute);
+app.use('/api/v1.0', authRoutes);
 
 
 

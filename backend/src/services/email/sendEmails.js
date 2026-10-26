@@ -1,10 +1,11 @@
-import sendEmails from '../configs/nodemailerConfig.js';
+import sendEmails from '../../configs/nodemailerConfig.js';
+
 import {passwordResetRequestTemplate} from './emailTemplates.js';
 import {passwordResetSuccessTemplate} from './emailTemplates.js';
 import {verificationEmailTemplate} from './emailTemplates.js';
 import {welcomeEmailTemplate} from './emailTemplates.js';
-import ErrorHandler from '../utils/errorHandlerUtil.js';
-import {getFirstName} from '../utils/functionsUtil.js';
+import ErrorHandler from '../../utils/errorHandlerUtil.js';
+import {getFirstName} from '../../utils/functionsUtil.js';
 
 
 export async function sendPasswordResetRequestTemplate(user, resetURL, res, next) {
