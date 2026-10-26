@@ -101,7 +101,7 @@ userSchema.pre('save', async function () {
 });
 
 /******************** format lastLoginTime **********************/
-userSchema.methods.updateLastLogin = function () {
+userSchema.methods.updateLastLoginTime = function () {
    const now = new Date();
 
    this.lastLoginTime = now;

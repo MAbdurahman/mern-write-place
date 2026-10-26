@@ -19,7 +19,7 @@ export default function setCookieAndToken(user, res, statusCode) {
 			)}'s data successfully configured!`,
 			success: true,
 			user: rest,
-			token,
+			accessToken: token
 		});
 
 }

@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 import asyncHandler from '../utils/asyncHandlerUtil.js';
 import messageHandler from '../utils/messageHandlerUtil.js';
-import ErrorHandler from '../utils/errorHandlerUtil.js';
 
 export const authenticateBearerToken = asyncHandler(async (req, res, next) => {
    let token;
