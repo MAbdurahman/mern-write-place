@@ -1,0 +1,70 @@
+/************************** imports **************************/
+import crypto from 'crypto';
+import User from '../models/userModel.js';
+import asyncHandler from '../utils/asyncHandlerUtil.js';
+import messageHandler from '../utils/messageHandlerUtil.js';
+import setCookieAndToken from '../utils/setCookieAndTokenUtil.js';
+import {
+   getFirstName,
+   validateEmail,
+   validatePassword,
+   validateFullname
+} from '../utils/functionsUtil.js'
+import {sendPasswordResetRequestTemplate} from '../services/email/sendEmails.js';
+import {sendPasswordResetSuccessTemplate} from '../services/email/sendEmails.js';
+import {sendVerificationEmailTemplate} from '../services/email/sendEmails.js';
+import {sendWelcomeEmailTemplate} from '../services/email/sendEmails.js';
+
+export const signUpUser = asyncHandler(async (req, res, next) => {
+   const {fullname, email, password} = req.body;
+
+   if (!fullname) {
+      return next(messageHandler('First and last name are required!', 400));
+   }
+   if (validateFullname(fullname).isValid === false) {
+      const {error} = validateFullname(fullname);
+      return next(messageHandler(error, 406));
+   }
+
+   if (!email) {
+      return next(messageHandler('Email is required', 400));
+   }
+   if (validateEmail(email).isValid === false) {
+      const {error} = validateEmail(email);
+      return next(messageHandler(error, 406));
+   }
+
+   if (!password) {
+      return next(messageHandler('Password is required', 400));
+   }
+   if (validatePassword(password).isValid === false) {
+      const {error} = validatePassword(password);
+      return next(messageHandler(error, 406));
+   }
+
+   /******************** find out if an user already exists ********************/
+   const userAlreadyExists = await User?.findOne({email});
+
+   if (userAlreadyExists) {
+      return next(messageHandler('User already exists!', 409));
+   }
+
+   /************************* create user and save user ************************/
+
+   const newUser = await new User({
+      fullname,
+      email,
+      password
+   });
+
+   await newUser.save();
+
+   const {password: pass, ...rest} = newUser._doc;
+
+   res.status(201).json({
+      message: `${getFirstName(fullname)} signed up successfully!`,
+      success: true,
+      user: rest
+   });
+
+});

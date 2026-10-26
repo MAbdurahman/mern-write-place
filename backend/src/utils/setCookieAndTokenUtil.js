@@ -11,7 +11,7 @@ export default function setCookieAndToken(user, res, statusCode) {
    const token = user.generateJsonWebToken();
    const { password: pass, ...rest } = user._doc;
 
-   res.cookie('blog_access', token, { httpOnly: true, expires: expiryDate })
+   res.cookie('write_place_access', token, { httpOnly: true, expires: expiryDate })
 		.status(statusCode)
 		.json({
 			message: `${getFirstName(
