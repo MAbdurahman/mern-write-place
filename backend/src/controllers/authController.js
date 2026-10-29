@@ -152,3 +152,249 @@ export const signOutUser = asyncHandler(async (req, res, next) => {
       isLoggedIn: user.isLoggedIn,
    });
 });
+
+export const getCurrentUserProfile = asyncHandler(async (req, res, next) => {
+   const user = await User.findById(req?.user?._id).select('-password');
+
+   if (!user) {
+      return next(messageHandler('User not found!', 404));
+   }
+
+   res.status(200).json({
+      message: `${user?.fullname} retrieved profile successfully!`,
+      success: true,
+      user: user,
+   });
+});
+
+export const updateCurrentUserPassword = asyncHandler(async (req, res, next) => {
+   const { oldPassword, newPassword } = req.body;
+   const user = await User.findById(req.user.id).select('+password');
+
+   if (!user) {
+      return next(messageHandler('User not found!', 404));
+   }
+
+   const isOldPasswordValid = await user.comparePassword(oldPassword);
+   if (!isOldPasswordValid) {
+      return next(messageHandler('Old password is incorrect!', 401));
+   }
+
+   if (!newPassword) {
+      return next(messageHandler('New password is required', 400));
+   }
+   if (validatePassword(newPassword).isValid === false) {
+      const { error } = validatePassword(newPassword);
+      return next(messageHandler(error, 406));
+   }
+
+   user.password = newPassword;
+   await user.save();
+
+   setCookieAndToken(user, res, 200);
+});
+export const updateCurrentUserProfile = asyncHandler(async (req, res, next) => {
+   const { fullname, email } = req.body;
+
+   if(!fullname) {
+      return next(messageHandler('Fullname is required', 400));
+   }
+   if (validateFullname(fullname).isValid === false) {
+      const { error } = validateFullname(fullname);
+      return next(messageHandler(error, 406));
+   }
+
+   if(!email) {
+      return next(messageHandler('Email is required', 400));
+   }
+   if (validateEmail(email).isValid === false) {
+      const { error } = validateEmail(email);
+      return next(messageHandler(error, 406));
+   }
+
+   /******************** find out if an user already exists ********************/
+   const userAlreadyExists = await User?.findOne({email});
+
+   if (userAlreadyExists) {
+      return next(messageHandler('User already exists!', 409));
+   }
+
+   const userNewData = {
+      fullname,
+      email,
+   };
+
+   const user = await User.findByIdAndUpdate(req.user.id, userNewData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+   }).select('-password');
+
+   if (!user) {
+      return next(messageHandler('User not found!', 404));
+   }
+
+   res.status(200).json({
+      message: `${user?.fullname} updated profile successfully!`,
+      success: true,
+      user: user,
+   });
+});
+
+export const sendPasswordReset = asyncHandler(async (req, res, next) => {
+   const {email} = req.body;
+   if (!email) {
+      return next(messageHandler('Email is required', 400));
+   }
+   if (validateEmail(email).isValid === false) {
+      const { error } = validateEmail(email);
+      return next(messageHandler(error, 406));
+   }
+
+   const isValidUser = await User?.findOne({email});
+   if (!isValidUser) {
+      return next(messageHandler('User not found!', 404));
+   }
+
+   const resetPasswordToken = isValidUser.generateResetPasswordToken();
+   await isValidUser.save({ validateBeforeSave: false });
+
+   const resetPasswordURL = `${process.env.FRONTEND_URL}/api/v1.0/auth/users/password/${resetPasswordToken}`;
+   await sendPasswordResetRequestTemplate(isValidUser, resetPasswordURL, res, next);
+
+});
+
+export const verifyTokenAndResetPassword = asyncHandler(async (req, res, next) => {
+   const {userToken} = req.params;
+   const {password, confirmedPassword} = req.body;
+   const resetPasswordToken = crypto.createHash('sha256').update(userToken).digest('hex');
+
+   const isValidUser = await User.findOne({
+      resetPasswordToken,
+      resetPasswordExpiresAt: { $gt: Date.now() }
+   });
+   if (!isValidUser) {
+      return next(messageHandler('Token is invalid or has expired!', 400));
+   }
+
+   if (!password) {
+      return next(messageHandler('Password is required', 400));
+   }
+   if (validatePassword(password).isValid === false) {
+      const { error } = validatePassword(password);
+      return next(messageHandler(error, 406));
+   }
+   if (!confirmedPassword) {
+      return next(messageHandler('Confirmed password is required!', 400));
+   }
+   if (password !== confirmedPassword) {
+      return next (messageHandler('Confirmed password does not match password!', 400));
+   }
+
+   isValidUser.password = password;
+   isValidUser.resetPasswordToken = undefined;
+   isValidUser.resetPasswordExpiresAt = undefined;
+   await isValidUser.save();
+
+   await sendPasswordResetSuccessTemplate(isValidUser, res, next);
+
+});
+
+export const getAllUsersAdmin = asyncHandler(async (req, res, next) => {
+   const users = await User.find({}).sort({fullname: 1});
+
+   if (!users) {
+      return next(messageHandler(`This resource ${User} does not exist!`, 404));
+   }
+   const count = users?.length;
+
+   res.status(200).json({
+      message: 'Admin - all users retrieved successfully!',
+      success: true,
+      count: count,
+      users: users,
+   });
+});
+
+export const getSingleUserAdmin = asyncHandler(async (req, res, next) => {
+   const { userId } = req.params;
+   const user = await User.findById(userId).select('-password');
+
+   if (!user) {
+      return next(
+         messageHandler(`User not found with id: ${userId}`, 404)
+      );
+   }
+
+   res.status(200).json({
+      message: `Admin -  Retrieved ${user?.fullname}'s profile successfully! `,
+      success: true,
+      user: user,
+   });
+});
+
+export const updateUserProfileAdmin = asyncHandler(async (req, res, next) => {
+   const {userId} = req.params;
+   const {fullname, email, role} = req.body;
+
+   const user = await User.findById(userId);
+   if (!user) {
+      return next(messageHandler('User not found!', 404));
+   }
+
+   if (fullname) {
+      if (validateFullname(fullname).isValid === false) {
+         const { error } = validateFullname(fullname);
+         return next(messageHandler( error, 406));
+      }
+   }
+
+   if (email) {
+      if (validateEmail(email).isValid === false) {
+         const { error } = validateEmail(email);
+         return next(messageHandler(error, 406));
+      }
+   }
+
+   if (role) {
+      if (!['user', 'admin'].includes(role)) {
+         return next(messageHandler('Invalid role!', 400));
+      }
+   }
+
+   const userNewData = {
+      fullname: fullname || user?.fullname,
+      email: email || user?.email,
+      role: role || user?.role,
+   };
+
+   const updatedUser = await User.findByIdAndUpdate(userId, userNewData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+   }).select('-password');
+
+
+   res.status(200).json({
+      message: `Admin - ${updatedUser?.fullname} updated profile successfully!`,
+      success: true,
+      user: updatedUser
+   });
+});
+export const deleteUserAdmin = asyncHandler(async (req, res, next) => {
+   const { userId } = req.params;
+   const user = await User.findById(userId).select('+password');
+
+   if (!user) {
+      return next(
+         messageHandler(`User not found with id: ${userId}`,404));
+   }
+
+   await User.deleteOne({ _id: user._id });
+
+   res.status(200).json({
+      message: 'Admin - user deleted successfully!',
+      success: true,
+      user: {},
+   });
+});

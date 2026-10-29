@@ -10,12 +10,9 @@ import bodyParser from 'body-parser';
 import logger from './../middlewares/loggerMiddleware.js';
 import errorsMiddleware from '../middlewares/errorsMiddleware.js';
 
-
-
 /************************* setup config file *************************/
 if (process.env.NODE_ENV !== 'production') {
    dotenv.config({path: './src/configs/config.env', quiet: true});
-   /*dotenv.config({path: './../../configs/config.env', quiet: true});*/
 }
 
 /***************************** variables *****************************/

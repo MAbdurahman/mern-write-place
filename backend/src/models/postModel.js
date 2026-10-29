@@ -104,10 +104,8 @@ postSchema.pre("save", function () {
    }
 });
 
-postSchema.index({ slug: 1 }, { unique: true });
 postSchema.index({ status: 1, publishedAt: -1 });
 postSchema.index({ tags: 1 });
 
 const Post = model("Post", postSchema);
-
 export default Post;

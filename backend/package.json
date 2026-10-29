@@ -12,7 +12,8 @@
     "server": "cross-env NODE_ENV=development& nodemon src/server.js",
     "client": "npm run dev --prefix ../frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "prod": "cross-env NODE_ENV=production& node src/server.js"
+    "prod": "cross-env NODE_ENV=production& node src/server.js",
+    "seed:data": "node ./src/utils/seederUtil.js"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
