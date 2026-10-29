@@ -6,7 +6,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import expressMongoSanitize from '@exortek/express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
 import logger from './../middlewares/loggerMiddleware.js';
 import errorsMiddleware from '../middlewares/errorsMiddleware.js';
 
@@ -53,7 +52,6 @@ app.use(
 app.set('query parser', 'extended');
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(expressMongoSanitize());
 app.use(logger);
