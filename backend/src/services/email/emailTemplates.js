@@ -26,7 +26,6 @@ export const verificationEmailTemplate = `
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        -o-user-select: none;
         user-select: none;
     }
     
@@ -128,7 +127,7 @@ export const verificationEmailTemplate = `
             considerations.</p>
         <p class='paragraph_two'>If you did not create an account with us, please
             ignore this email.</p>
-        <p class='paragraph_two'>Best regards,<br>MERN Blog Team</p>
+        <p class='paragraph_two'>Best regards,<br>WritePlace Team</p>
     </div>
     <div class='footer'>
         <p>This is an automated email, please do not reply.</p>
@@ -164,7 +163,6 @@ export const welcomeEmailTemplate = `
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        -o-user-select: none;
         user-select: none;
     }
     
@@ -245,7 +243,7 @@ export const welcomeEmailTemplate = `
         <p class='paragraph_two'>Thanks for signing up with MERN Blog. As a new member, you will enjoy special offers and exclusive deals, exciting new post announcements, and our unique take on developing trends.</p>
         <p class='paragraph_two'>We take as much pride and care in what we offer as you do in your researching. That means you can trust and
             rely on us (and our content) to help you reach new heights in your endeavors.</p>
-        <p class='paragraph_two'>Best regards,<br>MERN Blog Team</p>
+        <p class='paragraph_two'>Best regards,<br>WritePlace Team</p>
     </div>
     <div class='footer'>
         <p>This is an automated email, please do not reply.</p>
@@ -282,7 +280,6 @@ export const passwordResetRequestTemplate = `
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        -o-user-select: none;
         user-select: none;
     }
     
@@ -396,14 +393,14 @@ export const passwordResetRequestTemplate = `
         <h1>Password Reset Request</h1>
     </div>
     <div class='main_content'>
-        <p class='paragraph_one'>Hello&nbsp;{name}</p>
+        <p class='paragraph_one'>Hello&nbsp;${name}</p>
         <p class='paragraph_two'>We received a request to reset your password. If you did not make this request, please ignore this email.</p>
         <p class='paragraph_two'>To reset your password, click the button below:</p>
         <div class='button_container'>
-            <a href="{resetURL}">Reset Password</a>
+            <a href="${resetURL}">Reset Password</a>
         </div>
         <p class='paragraph_two'>This link will expire in 30 minutes for security considerations.</p>
-        <p class='paragraph_two'>Best regards,<br>MERN Blog Team</p>
+        <p class='paragraph_two'>Best regards,<br>WritePlace Team</p>
     </div>
     <div class='footer'>
         <p>This is an automated email, please do not reply.</p>
@@ -442,7 +439,6 @@ export const passwordResetSuccessTemplate = `
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        -o-user-select: none;
         user-select: none;
     }
     
@@ -573,7 +569,7 @@ export const passwordResetSuccessTemplate = `
         <h1>Password Reset Success</h1>
     </div>
     <div class='main_content'>
-        <p class='paragraph_one'>Hello&nbsp;{name},</p>
+        <p class='paragraph_one'>Hello&nbsp;${name},</p>
         <p class='paragraph_two'>We are writing to confirm that your password has
             been reset successfully.</p>
         <div class='success_img_container'>
@@ -594,7 +590,7 @@ export const passwordResetSuccessTemplate = `
         </ul>
         <p class='paragraph_two'>Thank you for helping us keep your account
             secure.</p>
-        <p class='paragraph_two'>Best regards,<br>MERN Blog Team</p>
+        <p class='paragraph_two'>Best regards,<br>WritePlace Team</p>
     </div>
     <div class='footer'>
         <p>This is an automated email, please do not reply.</p>
