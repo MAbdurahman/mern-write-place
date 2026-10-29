@@ -381,6 +381,7 @@ export const updateUserProfileAdmin = asyncHandler(async (req, res, next) => {
       user: updatedUser
    });
 });
+
 export const deleteUserAdmin = asyncHandler(async (req, res, next) => {
    const { userId } = req.params;
    const user = await User.findById(userId).select('+password');
