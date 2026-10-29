@@ -259,7 +259,7 @@ export const sendPasswordReset = asyncHandler(async (req, res, next) => {
    const resetPasswordToken = isValidUser.generateResetPasswordToken();
    await isValidUser.save({ validateBeforeSave: false });
 
-   const resetPasswordURL = `${process.env.FRONTEND_URL}/api/v1.0/auth/users/password/${resetPasswordToken}`;
+   const resetPasswordURL = `${process.env.FRONTEND_URL}/api/v1.0/auth/password/reset/${resetPasswordToken}`;
    await sendPasswordResetRequestTemplate(isValidUser, resetPasswordURL, res, next);
 
 });
