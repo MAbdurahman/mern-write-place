@@ -3,7 +3,21 @@
   "version": "1.0.0",
   "description": "backend for mern-write-place application",
   "main": "src/server.js",
-  "repository": "https://github.com/MAbdurahman/mern-write-place.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MAbdurahman/mern-write-place.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MAbdurahman/mern-write-place/issues"
+  },
+  "homepage": "https://github.com/MAbdurahman/mern-write-place#readme",
+  "keywords": [
+    "MongoDB",
+    "ExpressJS",
+    "ReactJS",
+    "and",
+    "NodeJS"
+  ],
   "author": "Mahdi Abdurrahman",
   "license": "MIT",
   "type": "module",
