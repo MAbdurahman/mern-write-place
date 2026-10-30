@@ -393,11 +393,11 @@ export const passwordResetRequestTemplate = `
         <h1>Password Reset Request</h1>
     </div>
     <div class='main_content'>
-        <p class='paragraph_one'>Hello&nbsp;${name}</p>
+        <p class='paragraph_one'>Hello&nbsp;{name}</p>
         <p class='paragraph_two'>We received a request to reset your password. If you did not make this request, please ignore this email.</p>
         <p class='paragraph_two'>To reset your password, click the button below:</p>
         <div class='button_container'>
-            <a href="${resetURL}">Reset Password</a>
+            <a href="{resetURL}">Reset Password</a>
         </div>
         <p class='paragraph_two'>This link will expire in 30 minutes for security considerations.</p>
         <p class='paragraph_two'>Best regards,<br>WritePlace Team</p>
@@ -569,7 +569,7 @@ export const passwordResetSuccessTemplate = `
         <h1>Password Reset Success</h1>
     </div>
     <div class='main_content'>
-        <p class='paragraph_one'>Hello&nbsp;${name},</p>
+        <p class='paragraph_one'>Hello&nbsp;{name},</p>
         <p class='paragraph_two'>We are writing to confirm that your password has
             been reset successfully.</p>
         <div class='success_img_container'>

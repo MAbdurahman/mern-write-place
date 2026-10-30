@@ -19,8 +19,9 @@ const insertSeededResources = async () => {
    try {
       /*await Post?.deleteMany();*/
       await User?.deleteMany();
+      await User?.insertMany(users);
 
-      const createdUsers = await User?.insertMany(users);
+      /*const createdUsers = await User?.insertMany(users);*/
       /*const adminUser = createdUsers[0]?._id;*/
 
 /*      const createdPosts = posts?.map(post => {
