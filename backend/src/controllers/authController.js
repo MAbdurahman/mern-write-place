@@ -265,9 +265,9 @@ export const sendPasswordReset = asyncHandler(async (req, res, next) => {
 });
 
 export const verifyTokenAndResetPassword = asyncHandler(async (req, res, next) => {
-   const {userToken} = req.params;
+   const {token} = req.params;
    const {password, confirmedPassword} = req.body;
-   const resetPasswordToken = crypto.createHash('sha256').update(userToken).digest('hex');
+   const resetPasswordToken = crypto.createHash('sha256').update(token).digest('hex');
 
    const isValidUser = await User.findOne({
       resetPasswordToken,
